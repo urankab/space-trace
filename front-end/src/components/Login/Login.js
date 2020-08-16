@@ -11,7 +11,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { Auth } from 'aws-amplify'
+// import { Auth } from 'aws-amplify'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -76,12 +76,8 @@ export default function Login(props) {
       if (data[1] === 400) {
         return setErrorMsg({ message: 'That Email/Password did not match anything in our system. Please enter a valid Email and Password.' });
       }
-      if (data['email']){
-
-      }
-      console.log('data :>> ', data);
-      props.onLoginSuccess(data);
-      // console.log(props.onLoginSuccess)
+      console.log('Response from Login ~ ', data);
+      props.handleLoginSuccess(data);
     }
   };
 
@@ -94,7 +90,6 @@ export default function Login(props) {
         </Avatar>
         <Typography component="h1" variant="h5">
           Login
-
         </Typography>
         <p>{errorMsg.message}</p>
         <form className={classes.form} noValidate onChange={handleForm}>
@@ -126,7 +121,6 @@ export default function Login(props) {
                 helperText={errorMsg.password}
               />
             </Grid>
-
           </Grid>
           <Button
             type="submit"

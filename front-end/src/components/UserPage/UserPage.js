@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { putData } from '../../business/fetch'
+
 const useStyles = makeStyles((theme) => ({
     paper: {
         marginTop: theme.spacing(8),
@@ -38,8 +39,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function UserPage(props) {
     const classes = useStyles();
-    const userData = props.userData['body'].fullName
-
+    // const userData = props.userData['body'].fullName
     const [updateData, setUpdateData] = useState(false)
 
     const [userForm, setUserForm] = useState({
@@ -56,44 +56,46 @@ export default function UserPage(props) {
     const onClickUpdateProfile = (e) => {
         setUpdateData(true)
     }
+
     const handleSignOut = async (e) => {
         let data = {
             email: props.userData['body']['body'].email,
             date: props.userData['body']['body'].date
         }
-        const url = 'https://9ynldka4jk.execute-api.ca-central-1.amazonaws.com/dev/sign-out';
+        const url = 'https://wi3zhq6h37.execute-api.ca-central-1.amazonaws.com/dev/sign-out';
         await putData(url, data);
-
+        props.handleSignOut(props.userData['body']['body'].fullName)
     }
+
     const handleForm = (e) => {
         e.preventDefault();
         const form = { ...userForm };
         form[e.target.name] = e.target.value;
         setUserForm(form);
-        //onClickUpdateProfile
     }
 
     const handleSubmit = async (e) => {
         const url = `${props.url}/fetch-data`;
         const { email, password } = userForm;
-        const test = { message: '', email: '', password: '', phone: '' };
+        const fields = { message: '', email: '', password: '', phone: '' };
         let isValid = true;
+
         e.preventDefault();
         if (!userForm.email) {
-            test.email = 'Please enter a valid Email';
+            fields.email = 'Please enter a valid Email';
             isValid = false;
         }
         if (!userForm.password) {
-            test.password = 'Please enter a valid Password';
+            fields.password = 'Please enter a valid Password';
             isValid = false;
         }
         if (!userForm.phone) {
-            test.phone = 'Please enter a valid Phone';
+            fields.phone = 'Please enter a valid Phone';
             isValid = false;
         }
     
+        setErrorMsg(fields);
 
-        setErrorMsg(test);
         if (isValid) {
             let data = await fetch(`${url}?email=${email}&password=${password}`);
             data = await data.json();
@@ -101,11 +103,8 @@ export default function UserPage(props) {
             if (data[1] === 400) {
                 return setErrorMsg({ message: 'That Email/Password did not match anything in our system. Please enter a valid Email and Password.' });
             }
-            if (data['email']) {
-
-            }
             console.log('data :>> ', data);
-            props.onLoginSuccess(data);
+            props.handleLoginSuccess(data);
             // console.log(props.onLoginSuccess)
         }
     }
@@ -156,7 +155,6 @@ export default function UserPage(props) {
                             helperText={errorMsg.phone}
                         />
                     </Grid>
-                    
                     <Button
                         type="submit"
                         fullWidth
@@ -185,7 +183,7 @@ export default function UserPage(props) {
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Welcome, {props.userName['body'].fullName}
+                    Welcome, {props.userData['body']['body'].fullName}
                 </Typography>
                 <p>{errorMsg.message}</p>
                 <Button
@@ -206,7 +204,6 @@ export default function UserPage(props) {
                     className={classes.updateBtn}
                     onClick={onClickUpdateProfile}
                 >
-
                     Update Profile
                     </Button>
                 {handleUpdateProfile()}

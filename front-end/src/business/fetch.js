@@ -18,6 +18,7 @@ export const postData = async (url = '', data = {}) => {
   json.statusText = response.statusText;
 
   return json;
+  
 };
 export const putData = async (url = '', data = {}) => {
   // Default options are marked with *

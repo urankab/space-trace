@@ -61,13 +61,16 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
-  form: {
+  buttonSpace: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(3),
   },
-  submit: {
+  button: {
     margin: theme.spacing(3, 0, 2),
   },
+  stuff: {
+    height: 250
+  }
 }));
 
 export default function Checklist(props) {
@@ -83,7 +86,6 @@ export default function Checklist(props) {
   };
 
   const handleList = () => {
-    // console.log('handle it');
     let count = 0;
     if (!checklist[index].list) {
       return null;
@@ -92,7 +94,6 @@ export default function Checklist(props) {
       (item) =>
         <ListItem key={count++}>·{item}</ListItem>,
     );
-
     return <List>{listItems}</List>;
   };
 
@@ -107,14 +108,14 @@ export default function Checklist(props) {
           Covid-19 Screening Checklist
         </Typography>
         <h1>{checklist[index].question}</h1>
-        <form className={classes.form} noValidate>
+        <form className={classes.buttonSpace} noValidate>
           {handleList(0)}
           <Grid container justify="space-between">
             <Button
               type="button"
               variant="contained"
               color="primary"
-              className={classes.submit}
+              className={classes.button}
             >
               Yes
             </Button>
@@ -122,7 +123,7 @@ export default function Checklist(props) {
               type="button"
               variant="contained"
               color="primary"
-              className={classes.submit}
+              className={classes.button}
               onClick={handleNo}
             >
               No

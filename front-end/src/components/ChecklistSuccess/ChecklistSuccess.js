@@ -26,15 +26,19 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  box: {
+    height: 200
+  }
 }));
 
-export default function ChecklistSucces(props) {
+export default function ChecklistSuccess(props) {
   // const [index, setIndex] = useState(0);
   const name = props.user['body'].fullName
   const classes = useStyles();
 
   const handleCancel = () => {
     console.log('Pressed cancel');
+    props.onCancel()
   };
 
   const handleSignIn = () => {
@@ -52,7 +56,7 @@ export default function ChecklistSucces(props) {
         <Typography component="h1" variant="h5">
           Covid-19 Screening Checklist
         </Typography>
-        <h1>Congratulations {name}! You may sign in to the space.</h1>
+        <h1 className={classes.box}>Congratulations {name}! You may sign in to the space.</h1>
         <Grid container justify="space-between">
           <Button
             type="button"

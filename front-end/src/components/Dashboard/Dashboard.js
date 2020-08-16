@@ -3,7 +3,6 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
-// import Box from '@material-ui/core/Box';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
@@ -11,9 +10,6 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
-// import Container from '@material-ui/core/Container';
-// import Grid from '@material-ui/core/Grid';
-// import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
@@ -28,12 +24,13 @@ import LayersIcon from '@material-ui/icons/Layers';
 import Register from '../Register/Register';
 import Login from '../Login/Login';
 import Checklist from '../Checklist/Checklist';
+import SpaceSignOut from '../SpaceSignout/SpaceSignOut'
 import ChecklistSuccess from '../ChecklistSuccess/ChecklistSuccess';
 import { secondaryListItems } from './listItems';
 import { postData } from '../../business/fetch';
 import UserPage from '../UserPage/UserPage';
 
-const api = 'https://9ynldka4jk.execute-api.ca-central-1.amazonaws.com/dev';
+const api = 'https://wi3zhq6h37.execute-api.ca-central-1.amazonaws.com/dev'
 
 function Copyright() {
   return (
@@ -131,12 +128,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Dashboard() {
   const [currentUser, setCurrentUser] = useState(null);
-
   const [page, setPage] = useState(null);
-  // const [page, setPage] = useState(<Login url={api} onLoginSuccess={handleLoginSuccess} />);
-
   const [open, setOpen] = useState(true);
+
   const classes = useStyles();
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -146,35 +142,43 @@ export default function Dashboard() {
 
   const handleSpaceSignIn = async (user) => {
     const url = `${api}/sign-in`;
-    const data = { email: user.body.email };
-    // console.log('spacesignin email :>> ', data);
-    // console.log('lets sign in');
-    // const user = {user: "a user goes here"}
+    const data = {
+      email: user.body.email,
+      fullName: user.body.fullName
+    };
     const response = await postData(url, data);
 
     // Local Storage
     localStorage.setItem('email', user.body.email);
     localStorage.setItem('password', user.body.password);
-    // console.log();
-    setPage(<UserPage userData={response} userName={user} />);
-    // console.log('response :>> ', response);
-    // console.log('response :>> ', user);
+
+    setPage(<UserPage userData={response} handleSignOut={handleSignOut} />);
+    console.log('Response on Sign In ~ ', response);
+    console.log('User ~ ', user);
   };
 
+  const onCancel = () => {
+    setPage(<Login url={api} handleLoginSuccess={handleLoginSuccess}/>)
+  }
+
   const handleChecklistSuccess = (user) => {
-    // console.log('currentUser line 154 :>> ', currentUser);
-    // console.log('user line 155 :>> ', user);
-    setPage(<ChecklistSuccess user={user} onSuccess={() => handleSpaceSignIn(user)} />);
+    setPage(<ChecklistSuccess
+      user={user}
+      onSuccess={() => handleSpaceSignIn(user)}
+      onCancel={onCancel}
+    />);
   };
 
   const handleLoginSuccess = (user) => {
-    // console.log('logged in user :>> ', user);
     setCurrentUser(user);
     setPage(<Checklist onSuccess={() => handleChecklistSuccess(user)} />);
   };
 
-  // console.log('currentUser from dash :>> ', currentUser);
-  if (!page) setPage(<Login url={api} onLoginSuccess={handleLoginSuccess} />);
+  if (!page) setPage(<Login url={api} handleLoginSuccess={handleLoginSuccess} />);
+
+  const handleSignOut = (user) => {
+    setPage(<SpaceSignOut user={user}/>)
+  }
 
   return (
     <div className={classes.root}>
@@ -278,7 +282,6 @@ export default function Dashboard() {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         {page}
-        {/* <Checklist /> */}
         <Copyright />
       </main>
     </div>

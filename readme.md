@@ -12,8 +12,6 @@ We are using a React front-end and an AWS Lambda serverless back-end with AWS Dy
 - Douglas Dougan - [github.com/djdougan](https://github.com/djdougan)
 - Sean Mortimer - [github.com/seanmortimer](https://github.com/seanmortimer)
 - Rob Soza - [github.com/robsoza](https://github.com/robsoza)
-- Zack Wang  -  [github.com/Zackwang07](https://github.com/Zackwang07)
-
 
 ## Tools Used:
 

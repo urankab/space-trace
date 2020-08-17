@@ -1,8 +1,7 @@
 
 # SpaceTrace
 
-This is the group repository for our SpaceTrace Covid-19 sign-in app for businesses.
-We are using a React front-end and an AWS Lambda serverless back-end with AWS DynamoDB.
+SpaceTrace Covid-19 sign-in app for businesses. We are using a React front-end and an AWS Lambda serverless back-end with AWS DynamoDB.
 
 
 ## Contributors:
@@ -37,7 +36,7 @@ For the following instructions use your command line. In Windows, it could be do
 
 1. Clone this repository. In your command line move to the directory that you would like to use as your base code directory. 
 ```sh
-git clone https://github.com/seanmortimer/cohort4-group.git
+git clone https://github.com/urankab/space-trace.git
 ```
 
 This repository has a number of projects within it. Each folder is a project. See the README.md in each folder for further instructions. 
